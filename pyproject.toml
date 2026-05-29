@@ -4,4 +4,6 @@ version = "0.1.0"
 description = "Lil project on a whim"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "tkmacosx>=1.0.5",
+]
