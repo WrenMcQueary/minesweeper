@@ -132,7 +132,6 @@ class Presentation:
         # TODO
 
         # If tile is a mine, lose.
-        # TODO: Make sure the mine actually gets shown
         if is_mine:
             self.window.after(1, self.lose)
             return
