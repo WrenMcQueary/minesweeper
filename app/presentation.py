@@ -80,6 +80,32 @@ class Presentation:
         message.show()
         self.window.quit()
 
+    def win(self) -> None:
+        """
+        Win the game.
+        """
+        message = Message(
+            self.window,
+            type="ok",
+            title="Victory!",
+            icon="info",
+            message="You won!",
+        )
+        message.show()
+        self.window.quit()
+
+
+    def check_if_game_won(self) -> bool:
+        """
+        TODO
+        """
+        for rr in range(self.board.side_length):
+            for cc in range(self.board.side_length):
+                tile = self.board.get_tile(row=rr, column=cc)
+                if (not tile.get_is_mine()) and (not tile.get_is_revealed()):
+                    return False
+        return True
+    
     def reveal(self, event: tk.Event) -> None:
         """
         Reveal the tile.  Update the data layer and presentation layer.
@@ -134,6 +160,12 @@ class Presentation:
         # If tile is a mine, lose.
         if is_mine:
             self.window.after(1, self.lose)
+            return
+        
+        # If all non-mine tiles have been revealed, win
+        is_game_won = self.check_if_game_won()
+        if is_game_won:
+            self.window.after(1, self.win)
             return
 
     def toggle_flag(self, event: tk.Event) -> None:
