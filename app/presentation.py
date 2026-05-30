@@ -94,10 +94,23 @@ class Presentation:
         frame.configure(
             relief=tk.FLAT,
         )
+        adjacent_mine_count = tile.get_adjacent_mine_count()
+        count_color = {
+            0: "gray",
+            1: "blue",
+            2: "green",
+            3: "yellow",
+            4: "purple",
+            5: "#c52525",
+            6: "#8b0000",
+            7: "orange",
+            8: "brown",
+        }[adjacent_mine_count]
         tk.Label(frame,
             text=str(tile.get_adjacent_mine_count()),
             relief=tk.FLAT,
             bg="gray",
+            fg=count_color,
             font="Courier 18",
         ).pack()
 
