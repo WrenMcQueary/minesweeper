@@ -37,11 +37,11 @@ class Board:
                     adjacent_mine_count = reduce(operator.add, [neighbor.get_is_mine() for neighbor in neighbors])
                     self.board[rr][cc].set_adjacent_mine_count(adjacent_mine_count)
 
-    def get_board(self) -> list[list[Tile]]:
+    def get_tile(self, row: int, column: int) -> Tile:
         """
         :return:        The board represented as rows of Tiles.
         """
-        return self.board
+        return self.board[row][column]
     
     def get_side_length(self) -> int:
         """

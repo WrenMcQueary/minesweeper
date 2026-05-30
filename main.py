@@ -1,7 +1,7 @@
 import argparse
 
 from app.board import Board
-from app.presentation import present
+from app.presentation import Presentation
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
     )
 
     # Create a GUI with the board
-    present(board)
+    Presentation(board)
 
 
 if __name__ == "__main__":
