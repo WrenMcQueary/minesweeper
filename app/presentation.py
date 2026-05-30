@@ -93,38 +93,49 @@ class Presentation:
         if tile.get_is_revealed() or tile.get_is_flagged():
             return
         
-        # If tile is a mine, lose.
-        if tile.get_is_mine():
-            self.lose()
-            return
-
         # Reveal tile
         tile.reveal()
         frame.configure(
             relief=tk.FLAT,
         )
-        adjacent_mine_count = tile.get_adjacent_mine_count()
-        count_color = {
-            0: "gray",
-            1: "blue",
-            2: "green",
-            3: "yellow",
-            4: "purple",
-            5: "#c52525",
-            6: "#8b0000",
-            7: "orange",
-            8: "brown",
-        }[adjacent_mine_count]
+        
+        is_mine = tile.get_is_mine()
+        if is_mine:
+            label_text = "💣"
+            label_color = "black"
+            label_font = "Courier 12"
+        else:
+            label_text = str(tile.get_adjacent_mine_count())
+            label_color = {
+                "0": "gray",
+                "1": "blue",
+                "2": "green",
+                "3": "yellow",
+                "4": "purple",
+                "5": "#c52525",
+                "6": "#8b0000",
+                "7": "orange",
+                "8": "brown",
+            }[label_text]
+            label_font = "Courier 18"
+        
         tk.Label(frame,
-            text=str(tile.get_adjacent_mine_count()),
+            text=label_text,
             relief=tk.FLAT,
             bg="gray",
-            fg=count_color,
-            font="Courier 18",
+            fg=label_color,
+            font=label_font,
         ).pack()
+
 
         # If tile has an adjacent mine count of 0, reveal all contiguous tiles with adjacent mine counts of 0.
         # TODO
+
+        # If tile is a mine, lose.
+        # TODO: Make sure the mine actually gets shown
+        if is_mine:
+            self.window.after(1, self.lose)
+            return
 
     def toggle_flag(self, event: tk.Event) -> None:
         """
