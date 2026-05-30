@@ -5,15 +5,26 @@ One tile of the board.
 
 class Tile:
 
-    def __init__(self, is_mine: bool):
+    def __init__(self, row: int, column: int, is_mine: bool):
         """
+        :param row:         Row coordinate of the tile on the board.
+        :param column:      Column coordinate of the tile on the board.
         :param is_mine:     Whether the tile is a mine.
         """
+        self.row = row
+        self.column = column
         self.is_mine = is_mine
         self.is_revealed = False
         self.is_flagged = False
         self.adjacent_mine_count = None
 
+    def get_coordinates(self) -> tuple[int]:
+        """
+        :return:            The (row, column) coordinates of this tile on the
+                            board.
+        """
+        return (self.row, self.column)
+    
     def get_is_mine(self) -> bool:
         """
         :return:            Whether the tile is a mine.

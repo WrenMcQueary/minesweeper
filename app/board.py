@@ -27,7 +27,7 @@ class Board:
         # Decide which tiles are mines
         for rr in range(self.side_length):
             for cc in range(self.side_length):
-                self.board[rr][cc] = Tile(is_mine=mine_assignments.pop())
+                self.board[rr][cc] = Tile(row=rr, column=cc, is_mine=mine_assignments.pop())
         
         # Set adjacent mine counts for non-mine tiles
         for rr in range(self.side_length):

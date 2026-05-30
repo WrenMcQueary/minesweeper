@@ -25,6 +25,7 @@ class Presentation:
         # Create frames and mappings from frames to tiles
         side_length = self.board.get_side_length()
         self.frames = [[None for _ in range(side_length)] for _ in range(side_length)]
+        self.tile_to_frame = dict()
         self.frame_to_tile = dict()
         for rr in range(side_length):
             for cc in range(side_length):
@@ -37,8 +38,9 @@ class Presentation:
                     relief=tk.RAISED,
                 )
                 self.frames[rr][cc].grid(row=rr, column=cc)
-                self.frames[rr][cc].bind("<Button-1>", self.reveal)
-                self.frames[rr][cc].bind("<Button-2>", self.toggle_flag)
+                self.frames[rr][cc].bind("<Button-1>", self.handle_left_click)
+                self.frames[rr][cc].bind("<Button-2>", self.handle_right_click)
+                self.tile_to_frame[self.board.get_tile(rr, cc)] = self.frames[rr][cc]
                 self.frame_to_tile[self.frames[rr][cc]] = self.board.get_tile(rr, cc)
 
         # Create outstanding mine counter
@@ -56,9 +58,16 @@ class Presentation:
         # Serve GUI
         self.window.mainloop()
 
+    def get_frame_from_tile(self, tile: Tile) -> tk.Frame:
+        """
+        Get the Frame (in the presentation layer) that corresponds to a
+        particular Tile of the board (in the data layer).
+        """
+        return self.tile_to_frame[tile]
+    
     def get_tile_from_frame(self, frame: tk.Frame) -> Tile:
         """
-        Get the Tile of the board (in the data layer) that corresponds with a
+        Get the Tile of the board (in the data layer) that corresponds to a
         particular Frame (in the presentation layer).
 
         :param frame:       Frame object
@@ -94,7 +103,6 @@ class Presentation:
         message.show()
         self.window.quit()
 
-
     def check_if_game_won(self) -> bool:
         """
         TODO
@@ -105,14 +113,13 @@ class Presentation:
                 if (not tile.get_is_mine()) and (not tile.get_is_revealed()):
                     return False
         return True
-    
-    def reveal(self, event: tk.Event) -> None:
+
+    def reveal(self, frame: tk.Frame) -> None:
         """
         Reveal the tile.  Update the data layer and presentation layer.
 
-        :param event:       Event produced by mouseclick
+        :param frame:       Frame to reveal
         """
-        frame = event.widget
         tile = self.get_tile_from_frame(frame)
         
         # Do nothing if tile is revealed or flagged
@@ -155,7 +162,11 @@ class Presentation:
 
 
         # If tile has an adjacent mine count of 0, reveal all contiguous tiles with adjacent mine counts of 0.
-        # TODO
+        if label_text == "0":
+            row, column = tile.get_coordinates()
+            neighbors = self.board.get_neighboring_tiles(row=row, column=column)
+            for neighbor in neighbors:
+                self.reveal(self.get_frame_from_tile(neighbor))
 
         # If tile is a mine, lose.
         if is_mine:
@@ -168,14 +179,13 @@ class Presentation:
             self.window.after(1, self.win)
             return
 
-    def toggle_flag(self, event: tk.Event) -> None:
+    def toggle_flag(self, frame: tk.Frame) -> None:
         """
         Toggle a flag on the tile.  Update the data layer and presentation
         layer.
         
-        :param event:       Event produced by mouseclick
+        :param frame:       Frame to toggle
         """
-        frame = event.widget
         tile = self.get_tile_from_frame(frame)
         
         # Do nothing if tile is revealed
@@ -193,3 +203,15 @@ class Presentation:
         
         # Update counter
         self.outstanding_mine_counter.configure(text=str(self.board.num_mines - self.num_flags))
+
+    def handle_left_click(self, event: tk.Event) -> None:
+        """
+        TODO
+        """
+        self.reveal(frame=event.widget)
+
+    def handle_right_click(self, event: tk.Event) -> None:
+        """
+        TODO
+        """
+        self.toggle_flag(frame=event.widget)
