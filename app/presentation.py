@@ -21,6 +21,7 @@ class Presentation:
         self.window.geometry("300x270")  # TODO: Scale based on side length
         self.window.configure(background="gray")
         self.num_flags = 0
+        self.is_next_click_safe = True
 
         # Create frames and mappings from frames to tiles
         side_length = self.board.get_side_length()
@@ -134,9 +135,35 @@ class Presentation:
         
         is_mine = tile.get_is_mine()
         if is_mine:
-            label_text = "💣"
-            label_color = "black"
-            label_font = "Courier 12"
+            if self.is_next_click_safe:
+                # Find a random tile that isn't a mine
+                non_mine_tile = self.board.get_random_non_mine_tile()
+                print(f"Mine; swapping with {non_mine_tile.get_coordinates()}")   # TODO: Remove debugging line
+
+                # Swap the tiles
+                self.board.swap_tile_mines(tile, non_mine_tile)
+
+                # Set label parameters like normal
+                label_text = str(tile.get_adjacent_mine_count())
+                label_color = {
+                    "0": "gray",
+                    "1": "blue",
+                    "2": "green",
+                    "3": "yellow",
+                    "4": "purple",
+                    "5": "#c52525",
+                    "6": "#8b0000",
+                    "7": "orange",
+                    "8": "brown",
+                }[label_text]
+                label_font = "Courier 18"
+
+                # Avoid mine-clicking consequences
+                is_mine = False
+            else:
+                label_text = "💣"
+                label_color = "black"
+                label_font = "Courier 12"
         else:
             label_text = str(tile.get_adjacent_mine_count())
             label_color = {
@@ -159,6 +186,7 @@ class Presentation:
             fg=label_color,
             font=label_font,
         ).pack()
+        self.is_next_click_safe = False
 
 
         # If tile has an adjacent mine count of 0, reveal all contiguous tiles with adjacent mine counts of 0.

@@ -53,7 +53,17 @@ class Tile:
             raise RuntimeError("adjacent mine count has not yet been set")
         return self.adjacent_mine_count
     
-    def set_adjacent_mine_count(self, adjacent_mine_count: int):
+    def set_is_mine(self, is_mine: bool) -> None:
+        """
+        Set whether the tile is a mine.
+
+        :param is_mine:                 Whether the tile is a mine.
+        """
+        self.is_mine = is_mine
+        if self.is_mine:
+            self.adjacent_mine_count = None
+    
+    def set_adjacent_mine_count(self, adjacent_mine_count: int|None):
         """
         Set the tile's adjacent mine count.
 
