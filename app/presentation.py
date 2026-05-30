@@ -3,6 +3,7 @@ Presentation layer; serves the GUI.
 """
 
 import tkinter as tk
+from tkinter.messagebox import Message
 
 from app.board import Board
 from app.tile import Tile
@@ -69,6 +70,14 @@ class Presentation:
         """
         Lose the game.
         """
+        message = Message(
+            self.window,
+            type="ok",
+            title="Kaboom",
+            icon="error",
+            message="💣💥☹️",
+        )
+        message.show()
         self.window.quit()
 
     def reveal(self, event: tk.Event) -> None:
