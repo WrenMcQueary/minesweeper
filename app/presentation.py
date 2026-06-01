@@ -1,5 +1,5 @@
 """
-Presentation layer; serves the GUI.
+Presentation layer.
 """
 
 import tkinter as tk
@@ -10,10 +10,14 @@ from app.tile import Tile
 
 
 class Presentation:
+    """
+    Serves the GUI of the minesweeper game, updates the data layer based on the
+    player's inputs, and adjudicates wins and losses.
+    """
 
     def __init__(self, board: Board):
         """
-        TODO
+        :param board:           Data layer object representing the game board.
         """
         self.board = board
         self.window = tk.Tk()
@@ -63,6 +67,9 @@ class Presentation:
         """
         Get the Frame (in the presentation layer) that corresponds to a
         particular Tile of the board (in the data layer).
+
+        :param tile:        Tile object.
+        :return:            The corresponding Frame object.
         """
         return self.tile_to_frame[tile]
     
@@ -78,7 +85,7 @@ class Presentation:
 
     def lose(self) -> None:
         """
-        Lose the game.
+        Show a loss message and exit the game once the message is closed.
         """
         message = Message(
             self.window,
@@ -92,7 +99,7 @@ class Presentation:
 
     def win(self) -> None:
         """
-        Win the game.
+        Show a win message and exit the game once the message is closed.
         """
         message = Message(
             self.window,
@@ -106,7 +113,10 @@ class Presentation:
 
     def check_if_game_won(self) -> bool:
         """
-        TODO
+        Check whether the game has been won (ie, whether all non-mine tiles have
+        been revealed).
+
+        :return:        True if the game has been won, else False.
         """
         for rr in range(self.board.side_length):
             for cc in range(self.board.side_length):
@@ -117,7 +127,8 @@ class Presentation:
 
     def reveal(self, frame: tk.Frame) -> None:
         """
-        Reveal the tile.  Update the data layer and presentation layer.
+        Reveal a space of the board.  Update the Tile in the data layer and the
+        Frame in the presentation layer.
 
         :param frame:       Frame to reveal
         """
@@ -138,7 +149,6 @@ class Presentation:
             if self.is_next_click_safe:
                 # Find a random tile that isn't a mine
                 non_mine_tile = self.board.get_random_non_mine_tile()
-                print(f"Mine; swapping with {non_mine_tile.get_coordinates()}")   # TODO: Remove debugging line
 
                 # Swap the tiles
                 self.board.swap_tile_mines(tile, non_mine_tile)
@@ -209,8 +219,8 @@ class Presentation:
 
     def toggle_flag(self, frame: tk.Frame) -> None:
         """
-        Toggle a flag on the tile.  Update the data layer and presentation
-        layer.
+        Toggle a flag on a space of the board.  Update the Tile in the data
+        layer and the Frame in the presentation layer.
         
         :param frame:       Frame to toggle
         """
@@ -234,12 +244,16 @@ class Presentation:
 
     def handle_left_click(self, event: tk.Event) -> None:
         """
-        TODO
+        Handle a left-click event.
+
+        :param event:       Input event created by Tkinter.
         """
         self.reveal(frame=event.widget)
 
     def handle_right_click(self, event: tk.Event) -> None:
         """
-        TODO
+        Handle a right-click event.
+
+        :param event:       Input event created by Tkinter.
         """
         self.toggle_flag(frame=event.widget)

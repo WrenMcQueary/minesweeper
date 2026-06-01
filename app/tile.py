@@ -4,6 +4,9 @@ One tile of the board.
 
 
 class Tile:
+    """
+    Data layer class for a single tile of the board.
+    """
 
     def __init__(self, row: int, column: int, is_mine: bool):
         """
@@ -20,25 +23,34 @@ class Tile:
 
     def get_coordinates(self) -> tuple[int]:
         """
+        Retrieve the position of this tile on the board.
+
         :return:            The (row, column) coordinates of this tile on the
-                            board.
+                            board.  A row of 0 represents the top row.  A column
+                            of 0 represents the leftmost column.
         """
         return (self.row, self.column)
     
     def get_is_mine(self) -> bool:
         """
+        Retrieve whether this tile is a mine.
+
         :return:            Whether the tile is a mine.
         """
         return self.is_mine
     
     def get_is_revealed(self) -> bool:
         """
+        Retrieve whether this tile is revealed.
+
         :return:            Whether the tile is revealed.
         """
         return self.is_revealed
     
     def get_is_flagged(self) -> bool:
         """
+        Retrieve whether this tile is flagged.
+
         :return:            Whether the tile is flagged.
         """
         return self.is_flagged

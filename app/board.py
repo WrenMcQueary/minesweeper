@@ -10,10 +10,14 @@ from app.tile import Tile
 
 
 class Board:
+    """
+    Data layer class for the board of tiles.
+    """
 
     def __init__(self, side_length: int, num_mines: int):
         """
-        TODO
+        :param side_length:     length of each side of the board, in tiles.
+        :param num_mines:       the number of mines to distribute across the board.
         """
         self.side_length = side_length
         self.num_mines = num_mines
@@ -34,19 +38,29 @@ class Board:
 
     def get_tile(self, row: int, column: int) -> Tile:
         """
-        :return:        The board represented as rows of Tiles.
+        Retrieve a specific tile object from the board.
+
+        :param row:     Row coordinate.  0 represents the top row.
+        :param column:  Column coordinate.  0 represents the leftmost column.
+        :return:        The Tile object.
         """
         return self.board[row][column]
     
     def get_side_length(self) -> int:
         """
+        Retrieve the side length of the board, in tiles.
+
         :return:        The side length of the board
         """
         return self.side_length
 
     def get_neighboring_tiles(self, row: int, column: int) -> list[Tile]:
         """
-        TODO
+        Get all tile objects that are adjacent to a specific tile coordinate.
+
+        :param row:     Row coordinate.  0 represents the top row.
+        :param column:  Column coordinate.  0 represents the leftmost column.
+        :return:        List of Tile objects.
         """
         coordinates_to_collect = [
             [rr, cc]
@@ -68,7 +82,9 @@ class Board:
     
     def get_random_non_mine_tile(self) -> Tile:
         """
-        TODO
+        Retrieve a randomly chosen tile of the board that is not a mine.
+
+        :return:        The non-mine Tile object.
         """
         non_mine_tiles = []
         for rr in range(self.side_length):
@@ -80,7 +96,10 @@ class Board:
 
     def swap_tile_mines(self, tile_0: Tile, tile_1: Tile) -> None:
         """
-        TODO
+        Swap the is_mine attributes of two tiles.  For example, if tile_0 is a
+        mine and tile_1 is not, running this function makes tile_0 not a mine
+        and tile_1 a mine.  Then refresh the adjacent mine counts of all tiles
+        on the board.
 
         :modify:        tile_0
         :modify:        tile_1
@@ -100,7 +119,7 @@ class Board:
 
     def count_adjacent_mines(self) -> None:
         """
-        TODO
+        Refresh the adjacent mine counts of all tiles on the board.
         """
         for rr in range(self.side_length):
             for cc in range(self.side_length):
