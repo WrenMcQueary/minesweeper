@@ -69,7 +69,7 @@ class Tile:
         """
         Set whether the tile is a mine.
 
-        :param is_mine:                 Whether the tile is a mine.
+        :param is_mine:     Whether the tile is a mine.
         """
         self.is_mine = is_mine
         if self.is_mine:

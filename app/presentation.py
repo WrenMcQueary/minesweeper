@@ -22,7 +22,9 @@ class Presentation:
         self.board = board
         self.window = tk.Tk()
         self.window.title("Minesweeper")
-        self.window.geometry("300x270")  # TODO: Scale based on side length
+        window_width = 30 * self.board.side_length + 30
+        window_height = 30 * self.board.side_length
+        self.window.geometry(f"{window_width}x{window_height}")  # TODO: Scale based on side length
         self.window.configure(background="gray")
         self.num_flags = 0
         self.is_next_click_safe = True

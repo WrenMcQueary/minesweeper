@@ -16,8 +16,8 @@ class Board:
 
     def __init__(self, side_length: int, num_mines: int):
         """
-        :param side_length:     length of each side of the board, in tiles.
-        :param num_mines:       the number of mines to distribute across the board.
+        :param side_length:     Length of each side of the board, in tiles.
+        :param num_mines:       Number of mines to distribute across the board.
         """
         self.side_length = side_length
         self.num_mines = num_mines
@@ -101,6 +101,8 @@ class Board:
         and tile_1 a mine.  Then refresh the adjacent mine counts of all tiles
         on the board.
 
+        :param tile_0:  First Tile object to swap mine statuses with.
+        :param tile_1:  Second Tile object to swap mine statuses with.
         :modify:        tile_0
         :modify:        tile_1
         """
