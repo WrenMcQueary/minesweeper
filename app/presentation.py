@@ -24,7 +24,7 @@ class Presentation:
         self.window.title("Minesweeper")
         window_width = 30 * self.board.side_length + 30
         window_height = 30 * self.board.side_length
-        self.window.geometry(f"{window_width}x{window_height}")  # TODO: Scale based on side length
+        self.window.geometry(f"{window_width}x{window_height}")
         self.window.configure(background="gray")
         self.num_flags = 0
         self.is_next_click_safe = True
