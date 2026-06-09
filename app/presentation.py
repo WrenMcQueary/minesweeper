@@ -160,7 +160,7 @@ class Presentation:
                 label_color = {
                     "0": "gray",
                     "1": "blue",
-                    "2": "green",
+                    "2": "#00ff00",
                     "3": "yellow",
                     "4": "purple",
                     "5": "#c52525",
