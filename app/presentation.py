@@ -126,6 +126,26 @@ class Presentation:
                 if (not tile.get_is_mine()) and (not tile.get_is_revealed()):
                     return False
         return True
+    
+    def number_to_color(self, number: int|str) -> str:
+        """
+        Return the appropriate tile label color for a particular adjacent mine
+        count number.
+
+        :param number:      The adjacent mine count.
+        :return:            Color name or hex code.
+        """
+        return {
+            "0": "gray",
+            "1": "blue",
+            "2": "#00ff00",
+            "3": "yellow",
+            "4": "purple",
+            "5": "#c52525",
+            "6": "#8b0000",
+            "7": "orange",
+            "8": "brown",
+        }[str(number)]
 
     def reveal(self, frame: tk.Frame) -> None:
         """
@@ -157,17 +177,7 @@ class Presentation:
 
                 # Set label parameters like normal
                 label_text = str(tile.get_adjacent_mine_count())
-                label_color = {
-                    "0": "gray",
-                    "1": "blue",
-                    "2": "#00ff00",
-                    "3": "yellow",
-                    "4": "purple",
-                    "5": "#c52525",
-                    "6": "#8b0000",
-                    "7": "orange",
-                    "8": "brown",
-                }[label_text]
+                label_color = self.number_to_color(label_text)
                 label_font = "Courier 18"
 
                 # Avoid mine-clicking consequences
@@ -178,17 +188,7 @@ class Presentation:
                 label_font = "Courier 12"
         else:
             label_text = str(tile.get_adjacent_mine_count())
-            label_color = {
-                "0": "gray",
-                "1": "blue",
-                "2": "#00ff00",
-                "3": "yellow",
-                "4": "purple",
-                "5": "#c52525",
-                "6": "#8b0000",
-                "7": "orange",
-                "8": "brown",
-            }[label_text]
+            label_color = self.number_to_color(label_text)
             label_font = "Courier 18"
         
         tk.Label(frame,
